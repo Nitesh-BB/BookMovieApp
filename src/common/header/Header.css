@@ -1,0 +1,29 @@
+.header__container {
+  background-color: #222;
+  height: 36px;
+  padding: 8px 32px 8px 16px;
+}
+.header__elements{
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+.header__logo {
+  background-color: #ff7f7f;
+  height: 35px;
+  width: 35px;
+  -webkit-animation: rotateY 8s infinite linear;
+  animation: rotateY 8s infinite linear;
+}
+
+@-webkit-keyframes rotateY {
+  to {
+    -webkit-transform: rotateY(360deg);
+  }
+}
+@keyframes rotateY {
+  to {
+    transform: rotateY(360deg);
+  }
+}
