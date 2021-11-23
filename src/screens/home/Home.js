@@ -1,11 +1,21 @@
+
 import React from "react"
+import Header from "../../common/header/Header"
+import "./Home.css"
+import Grid from "./Grid"
 const Home = () => {
     console.log("Home")
     return (
-        <div>
-            home
+      <div className="home__container">
+        <Header />
+        <div className="home__content">
+          <div className="home__heading">
+            Upcoming Movies
+          </div>
+          <Grid />
         </div>
-    )
+      </div>
+    );
 }
 
 export default Home;
