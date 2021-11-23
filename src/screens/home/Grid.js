@@ -28,69 +28,30 @@ const styles = (theme) => ({
 const Grid = (props) => {
     const { classes } = props;
  
+    const defaultImage= (ev)=>{
+         ev.target.src = "https://source.unsplash.com/random";
+    }
     return (
       <div className={classes.root}>
         <GridList className={classes.gridList} cols={5}>
-          <GridListTile key={1}>
-            <img src="https://source.unsplash.com/random" alt={"img"} />
-            <GridListTileBar
-              title="title"
-              classes={{
-                root: classes.titleBar,
-                title: classes.title,
-              }}
-            />
-          </GridListTile>
-          <GridListTile key={1}>
-            <img src="https://source.unsplash.com/random" alt={"img"} />
-            <GridListTileBar
-              title="title"
-              classes={{
-                root: classes.titleBar,
-                title: classes.title,
-              }}
-            />
-          </GridListTile>
-          <GridListTile key={1}>
-            <img src="https://source.unsplash.com/random" alt={"img"} />
-            <GridListTileBar
-              title="title"
-              classes={{
-                root: classes.titleBar,
-                title: classes.title,
-              }}
-            />
-          </GridListTile>
-          <GridListTile key={1}>
-            <img src="https://source.unsplash.com/random" alt={"img"} />
-            <GridListTileBar
-              title="title"
-              classes={{
-                root: classes.titleBar,
-                title: classes.title,
-              }}
-            />
-          </GridListTile>
-          <GridListTile key={1}>
-            <img src="https://source.unsplash.com/random" alt={"img"} />
-            <GridListTileBar
-              title="title"
-              classes={{
-                root: classes.titleBar,
-                title: classes.title,
-              }}
-            />
-          </GridListTile>
-          <GridListTile key={1}>
-            <img src="https://source.unsplash.com/random" alt={"img"} />
-            <GridListTileBar
-              title="title"
-              classes={{
-                root: classes.titleBar,
-                title: classes.title,
-              }}
-            />
-          </GridListTile>
+          {props.upComingMovies?.length > 0 &&
+            props.upComingMovies.map((movie) => (
+              <GridListTile key={movie.id}>
+                <img
+                  src={movie.poster_url}
+                  alt={"img"}
+                  onError={defaultImage}
+                  loading="lazy"
+                />
+                <GridListTileBar
+                  title={movie.title}
+                  classes={{
+                    root: classes.titleBar,
+                    title: classes.title,
+                  }}
+                />
+              </GridListTile>
+            ))}
         </GridList>
       </div>
     );
