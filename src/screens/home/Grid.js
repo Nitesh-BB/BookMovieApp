@@ -1,7 +1,7 @@
 import React from "react"
-import GridList from "@material-ui/core/GridList";
-import GridListTile from "@material-ui/core/GridListTile";
-import GridListTileBar from "@material-ui/core/GridListTileBar";
+import ImageList from "@mui/material/ImageList";
+import ImageListItem from "@mui/material/ImageListItem";
+import ImageListItemBar from "@mui/material/ImageListItemBar";
 import { withStyles } from "@material-ui/core/styles";
 import PropTypes from "prop-types";
 const styles = (theme) => ({
@@ -13,7 +13,7 @@ const styles = (theme) => ({
     backgroundColor: theme.palette.background.paper,
   },
   gridList: {
-    flexWrap: "nowrap",
+    
     // Promote the list into his own layer on Chrome. This cost memory but helps keeping high FPS.
     transform: "translateZ(0)",
   },
@@ -33,26 +33,31 @@ const Grid = (props) => {
     }
     return (
       <div className={classes.root}>
-        <GridList className={classes.gridList} cols={5}>
+        <ImageList
+          sx={{ width: "100%",height:310 }}
+          cols={6}
+          className={classes.gridList}
+          
+        >
           {props.upComingMovies?.length > 0 &&
             props.upComingMovies.map((movie) => (
-              <GridListTile key={movie.id}>
+              <ImageListItem key={movie.id}>
                 <img
                   src={movie.poster_url}
                   alt={"img"}
                   onError={defaultImage}
                   loading="lazy"
                 />
-                <GridListTileBar
+                <ImageListItemBar
                   title={movie.title}
                   classes={{
                     root: classes.titleBar,
                     title: classes.title,
                   }}
                 />
-              </GridListTile>
+              </ImageListItem>
             ))}
-        </GridList>
+        </ImageList>
       </div>
     );
 }

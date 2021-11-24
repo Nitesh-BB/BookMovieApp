@@ -24,7 +24,7 @@ const Home = ({baseUrl}) => {
   },[])
     return (
       <div className="home__container">
-        <Header />
+        <Header baseUrl={ baseUrl} />
         <div className="home__content">
           <div className="home__heading">Upcoming Movies</div>
           <Grid upComingMovies={upcomingMovies} />

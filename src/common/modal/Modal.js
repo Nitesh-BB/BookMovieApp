@@ -16,13 +16,14 @@ const customStyles = {
     bottom: "auto",
     marginRight: "-50%",
     transform: "translate(-50%, -50%)",
+    width: 330
   },
 };
 
 // Make sure to bind modal to your appElement (https://reactcommunity.org/react-modal/accessibility/)
 Modal.setAppElement("#root");
 
-function App({ closeModal, modalIsOpen }) {
+function App({ closeModal, modalIsOpen,baseUrl }) {
   const [value, setValue] = React.useState("1");
 
   const handleChange = (event, newValue) => {
@@ -42,7 +43,7 @@ function App({ closeModal, modalIsOpen }) {
             <TabList
               onChange={handleChange}
               aria-label="lab API tabs example"
-              TabIndicatorProps = {{style:{background:"red"}}}
+              TabIndicatorProps={{ style: { background: "red" } }}
               variant="fullWidth"
               textColor="inherit"
             >
@@ -51,10 +52,10 @@ function App({ closeModal, modalIsOpen }) {
             </TabList>
           </Box>
           <TabPanel value="1">
-            <Login />
+            <Login baseUrl={baseUrl} closeModal={closeModal} />
           </TabPanel>
           <TabPanel value="2">
-            <Register />
+            <Register baseUrl={baseUrl} closeModal={closeModal} />
           </TabPanel>
         </TabContext>
       </Box>

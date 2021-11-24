@@ -9,7 +9,8 @@ const Login = () => {
             required
             label="Username"
             variant="standard"
-            size="small"
+          size="small"
+          fullWidth
           />
         </div>
         <div style={{ marginBottom: 20 }}>
@@ -18,7 +19,8 @@ const Login = () => {
             required
             type="password"
             label="Password"
-            variant="standard"
+          variant="standard"
+          fullWidth
           />
         </div>
         <div style={{textAlign:"center"}}>

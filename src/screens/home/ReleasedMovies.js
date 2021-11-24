@@ -33,15 +33,15 @@ const styles = (theme) => ({
   card: {
     maxWidth: 240,
     minWidth: 240,
-    margin: theme.spacing.unit,
+    margin: theme.spacing(1),
   },
   heading: {
     color: theme.palette.primary.light,
-    marginLeft:20
+    marginLeft: 20,
   },
-    fields: {
-      marginBottom: theme.spacing.unit * 2,
-  }
+  fields: {
+    marginBottom: theme.spacing(2),
+  },
 });
 const ReleasedMovies = (props) => {
 const navigate = useNavigate();
