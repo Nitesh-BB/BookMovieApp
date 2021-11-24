@@ -30,6 +30,7 @@ function App({ closeModal, modalIsOpen,baseUrl }) {
     setValue(newValue);
   };
 
+  
   return (
     <Modal
       isOpen={modalIsOpen}
