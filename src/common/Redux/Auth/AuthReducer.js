@@ -2,6 +2,7 @@ import { AUTH_LOGIN, AUTH_LOGOUT } from "./AuthTypes";
 
 const initialState = {
   isLoggedIn: false,
+  token:""
 };
 
 const reducer = (state = initialState, action) => {
@@ -9,6 +10,7 @@ const reducer = (state = initialState, action) => {
     case AUTH_LOGIN:
       return {
         isLoggedIn: true,
+        token: action.payload
       };
     case AUTH_LOGOUT:
       return {

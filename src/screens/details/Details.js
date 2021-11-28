@@ -9,10 +9,16 @@ import ImageList from "@mui/material/ImageList";
 import ImageListItem from "@mui/material/ImageListItem";
 import ImageListItemBar from "@mui/material/ImageListItemBar";
 import { Link } from "react-router-dom";
+import { Rating } from "react-simple-star-rating";
 const Details = ({baseUrl}) => {
-    const { id } = useParams();
+  const { id } = useParams();
+  const [rating, setRating] = useState(0);
     const [details, setDetails] = useState({});
-   const [videoId, setVideoId] = useState("");
+  const [videoId, setVideoId] = useState("");
+  const handleRating = (rate) => {
+    setRating(rate);
+    // Some logic
+  };
     useEffect(() => {
 
         const fetchMovieDetails = async () => {
@@ -29,7 +35,7 @@ const Details = ({baseUrl}) => {
     },[id])
     return (
       <div>
-        <Header movieId={id} />
+        <Header movieId={id} baseUrl={baseUrl} />
         <Typography className="details__goBack">
           <Link to={"/"}>&#60; Back to Home</Link>
         </Typography>
@@ -67,22 +73,10 @@ const Details = ({baseUrl}) => {
             </div>
           </section>
           <section className="details__right">
-            <span>
-              <StarBorderIcon />
-            </span>
-            <span>
-              <StarBorderIcon />
-            </span>
-            <span>
-              <StarBorderIcon />
-            </span>
-            <span>
-              <StarBorderIcon />
-            </span>
-            <span>
-              <StarBorderIcon />
-            </span>
-
+            <Rating
+              onClick={handleRating}
+              ratingValue={rating} 
+            />
             <div style={{ marginTop: 16, marginBottom: 16 }}>Artists</div>
 
             <ImageList cols={2} rowHeight={160}>

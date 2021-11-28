@@ -12,19 +12,21 @@ const Login = ({ baseUrl, closeModal }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    console.log(baseUrl)
+    const token = window.btoa(user.username + ":" + user.password)
     try {
       const response = await fetch(`${baseUrl}auth/login`, {
         method: "POST",
         headers: {
           Authorization:
-            "Basic " + window.btoa(user.username + ":" + user.password),
+            "Basic " + token
         },
       });
       const data = await response.json();
       closeModal();
       console.log(data);
       if (data.status === "ACTIVE") {
-        dispatch(updateAuthLogin(data));
+        dispatch(updateAuthLogin(token));
         closeModal();
       
        } 

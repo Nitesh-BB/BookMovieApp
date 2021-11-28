@@ -1,4 +1,4 @@
-import React,{useEffect} from "react";
+import React, { useEffect } from "react";
 import "./ReleasedMovies.css";
 import ImageList from "@mui/material/ImageList";
 import ImageListItem from "@mui/material/ImageListItem";
@@ -44,46 +44,75 @@ const styles = (theme) => ({
   },
 });
 const ReleasedMovies = (props) => {
-const navigate = useNavigate();
- const [generes, setGeneres] = React.useState([]);
+  const navigate = useNavigate();
+  const [generes, setGeneres] = React.useState([]);
+
   const [artists, setArtists] = React.useState([]);
-    useEffect(() => {
-        const fetchGeners = async () => {
-            const response = await fetch(props.baseUrl + "genres");
-            const data = await response.json();
-            setGeneres(data.genres);
-        }
-        const fetchArtists = async () => {
-            const response = await fetch(
-              props.baseUrl + "artists?page=1&limit=20"
-            );
-            const data = await response.json();
-            setArtists(data.artists);
-        }
-        fetchGeners();
-        fetchArtists();
-    },[])
-    const defaultImage = (ev) => {
-      ev.target.src = "https://source.unsplash.com/random";
+
+
+  const [filterData, setFilterData] = React.useState({
+    name: "",
+    artists: [],
+    generes: [],
+    releasedStartDate: "",
+    releasedEndDate: "",
+  });
+
+  useEffect(() => {
+    const fetchGeners = async () => {
+      const response = await fetch(props.baseUrl + "genres");
+      const data = await response.json();
+      setGeneres(data.genres);
     };
-    const { classes } = props;
-    const [personName, setPersonName] = React.useState([]);
-    const handleChange = (event) => {
-      const {
-        target: { value },
-      } = event;
-      setPersonName(
-        // On autofill we get a the stringified value.
-        typeof value === "string" ? value.split(",") : value
-      );
+    const fetchArtists = async () => {
+      const response = await fetch(props.baseUrl + "artists?page=1&limit=20");
+      const data = await response.json();
+      setArtists(data.artists);
     };
+    fetchGeners();
+    fetchArtists();
+  }, []);
+  const defaultImage = (ev) => {
+    ev.target.src = "https://source.unsplash.com/random";
+  };
+
+  const onChangeHandler = (event) => {
+    setFilterData({ ...filterData, [event.target.name]: event.target.value });
+  };
+
+  const applyFilter = () => {
+    props.filterMovies(filterData);
+  };
+  const { classes } = props;
+
+  const handleArtistChange = (event) => {
+    const {target: { value }} = event;
+
+    let data = typeof value === "string" ? value.split(",") : value;
+    setFilterData({  ...filterData, artists: data });
+  };
+  const handleGenereChange = (event) => {
+    const {target: { value }} = event;
+
+    const data = typeof value === "string" ? value.split(",") : value;
+    setFilterData({
+      ...filterData,
+      generes: data,
+    });
+  };
   return (
     <div className="released__main__container">
       <div className="released__images__grid">
         <ImageList sx={{ width: "100%", height: 350 }} cols={4}>
           {props.releasedMovies.length > 0 &&
             props.releasedMovies.map((item) => (
-                <ImageListItem key={item.id} onClick={() =>{navigate(`/movie/${item.id}`)}} style={{cursor:"pointer"}}>
+              <ImageListItem
+                key={item.id}
+                onClick={() => {
+                  navigate(`/movie/${item.id}`);
+                }}
+                style={{ cursor: "pointer" }}
+              >
                 <img
                   src={item.poster_url}
                   alt={item.title}
@@ -103,7 +132,13 @@ const navigate = useNavigate();
           <CardContent>
             <form>
               <div className={classes.fields}>
-                <TextField label="Movie Name" variant="standard" size="small" />
+                <TextField
+                  label="Movie Name"
+                  variant="standard"
+                  size="small"
+                  name="name"
+                  onChange={onChangeHandler}
+                />
               </div>
 
               <div className={classes.fields}>
@@ -115,8 +150,8 @@ const navigate = useNavigate();
                     labelId="demo-multiple-checkbox-label"
                     id="demo-multiple-checkbox"
                     multiple
-                    value={personName}
-                    onChange={handleChange}
+                    value={filterData.generes}
+                    onChange={handleGenereChange}
                     input={<Input label="Genere" size="small" />}
                     renderValue={(selected) => selected.join(", ")}
                     MenuProps={MenuProps}
@@ -125,7 +160,9 @@ const navigate = useNavigate();
                       generes.map((item) => (
                         <MenuItem key={item.id} value={item.genre}>
                           <Checkbox
-                            checked={personName.indexOf(item.genre) > -1}
+                            checked={
+                              filterData.generes.indexOf(item.genre) > -1
+                            }
                           />
                           <ListItemText primary={item.genre} />
                         </MenuItem>
@@ -142,8 +179,8 @@ const navigate = useNavigate();
                     labelId="demo-multiple-checkbox-label"
                     id="demo-multiple-checkbox"
                     multiple
-                    value={personName}
-                    onChange={handleChange}
+                    value={filterData.artists}
+                    onChange={handleArtistChange}
                     input={<Input label="Artists" size="small" />}
                     renderValue={(selected) => selected.join(", ")}
                     MenuProps={MenuProps}
@@ -156,7 +193,7 @@ const navigate = useNavigate();
                         >
                           <Checkbox
                             checked={
-                              personName.indexOf(
+                              filterData.artists.indexOf(
                                 `${artist.first_name} ${artist.last_name}`
                               ) > -1
                             }
@@ -171,6 +208,8 @@ const navigate = useNavigate();
               </div>
               <div className={classes.fields}>
                 <TextField
+                  onChange={onChangeHandler}
+                  name="releasedStartDate"
                   size="small"
                   label="Release Date Start"
                   variant="standard"
@@ -182,6 +221,8 @@ const navigate = useNavigate();
               </div>
               <div className={classes.fields}>
                 <TextField
+                  onChange={onChangeHandler}
+                  name="releasedEndDate"
                   size="small"
                   label="Release Date End"
                   variant="standard"
@@ -198,6 +239,7 @@ const navigate = useNavigate();
                   color="primary"
                   fullWidth
                   size="small"
+                  onClick={applyFilter}
                 >
                   Apply
                 </Button>
@@ -209,8 +251,6 @@ const navigate = useNavigate();
     </div>
   );
 };
-
-
 
 ReleasedMovies.propTypes = {
   classes: PropTypes.object.isRequired,

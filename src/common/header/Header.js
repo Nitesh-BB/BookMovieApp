@@ -6,10 +6,10 @@ import Modal from "../modal/Modal";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
-import { performLogout} from "../Redux"
+import { performLogout } from "../Redux";
 const Header = ({ movieId, baseUrl }) => {
-  const { isLoggedIn } = useSelector((state) => state.auth);
-const dispatch = useDispatch();
+  const { isLoggedIn, token } = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const [modalIsOpen, setIsOpen] = React.useState(false);
 
@@ -21,9 +21,21 @@ const dispatch = useDispatch();
     setIsOpen(false);
   }
 
-  function logout() {
-    dispatch(performLogout());
-  }
+  const logout = async () => {
+    try {
+      // const response = await fetch(`${baseUrl}auth/logout`, {
+      //   method: "POST",
+      //   headers: {
+      //     Authorization: "Basic " + token,
+      //   },
+      // });
+      // const data = await response.json();
+      // console.log(data);
+      dispatch(performLogout());
+    } catch (error) {
+      alert(error.message);
+    }
+  };
 
   return (
     <div className="header__container">
@@ -46,7 +58,7 @@ const dispatch = useDispatch();
               variant="contained"
               color="primary"
               onClick={() => {
-                isLoggedIn ? navigate(`/movie/${movieId}`) : openModal();
+                isLoggedIn ? navigate(`/bookshow/${movieId}`) : openModal();
               }}
             >
               Book Show
