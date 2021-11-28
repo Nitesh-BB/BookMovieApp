@@ -10,6 +10,8 @@ import ImageListItem from "@mui/material/ImageListItem";
 import ImageListItemBar from "@mui/material/ImageListItemBar";
 import { Link } from "react-router-dom";
 import { Rating } from "react-simple-star-rating";
+import defaultImageJpg from "../../assets/defaultImage.jpg";
+import dummyUser from "../../assets/dummy-user.png"
 const Details = ({baseUrl}) => {
   const { id } = useParams();
   const [rating, setRating] = useState(0);
@@ -32,7 +34,14 @@ const Details = ({baseUrl}) => {
         fetchMovieDetails();
 
         
-    },[id])
+    }, [id])
+  
+   const defaultImage = (ev) => {
+     ev.target.src = defaultImageJpg;
+  };
+  const defaultActorImage = (ev) => {
+    ev.target.src = dummyUser;
+  }
     return (
       <div>
         <Header movieId={id} baseUrl={baseUrl} />
@@ -41,7 +50,7 @@ const Details = ({baseUrl}) => {
         </Typography>
         <div className="details__container">
           <section className="details__left">
-            <img src={details.poster_url} />
+            <img src={details.poster_url} onError={defaultImage} style={{height:350}} />
           </section>
           <section className="details__center">
             <Typography variant="h2">{details.title}</Typography>
@@ -88,6 +97,7 @@ const Details = ({baseUrl}) => {
                       src={`${item.profile_url}`}
                       alt={item.first_name}
                       loading="lazy"
+                      onError={defaultActorImage}
                     />
                     <ImageListItemBar
                       title={`${item.first_name} ${item.last_name}`}

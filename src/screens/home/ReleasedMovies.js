@@ -18,6 +18,7 @@ import InputLabel from "@mui/material/InputLabel";
 import Select from "@mui/material/Select";
 import FormControl from "@mui/material/FormControl";
 import { useNavigate } from "react-router-dom";
+import defaultImageJpg from "../../assets/defaultImage.jpg";
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
 
@@ -25,7 +26,7 @@ const MenuProps = {
   PaperProps: {
     style: {
       maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
-      width: 250,
+      
     },
   },
 };
@@ -73,9 +74,8 @@ const ReleasedMovies = (props) => {
     fetchArtists();
   }, []);
   const defaultImage = (ev) => {
-    ev.target.src = "https://source.unsplash.com/random";
+    ev.target.src = defaultImageJpg;
   };
-
   const onChangeHandler = (event) => {
     setFilterData({ ...filterData, [event.target.name]: event.target.value });
   };
@@ -118,8 +118,9 @@ const ReleasedMovies = (props) => {
                   alt={item.title}
                   loading="lazy"
                   onError={defaultImage}
+                  style={{ height: 350 }}
                 />
-                <ImageListItemBar title={item.title} />
+                <ImageListItemBar title={item.title} subtitle={`Released Date:${new Date(item.release_date).toDateString()}`} />
               </ImageListItem>
             ))}
         </ImageList>
@@ -208,6 +209,7 @@ const ReleasedMovies = (props) => {
               </div>
               <div className={classes.fields}>
                 <TextField
+                  fullWidth
                   onChange={onChangeHandler}
                   name="releasedStartDate"
                   size="small"
@@ -221,6 +223,7 @@ const ReleasedMovies = (props) => {
               </div>
               <div className={classes.fields}>
                 <TextField
+                  fullWidth
                   onChange={onChangeHandler}
                   name="releasedEndDate"
                   size="small"
